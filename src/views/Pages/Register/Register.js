@@ -109,29 +109,29 @@ onPasswordChange=(e)=>{
 
 
 
-  oncatergoryselect=(e)=>{
+//   oncatergoryselect=(e)=>{
 
-this.setState({
-  [e.target.name]:e.target.value
-})
+// this.setState({
+//   [e.target.name]:e.target.value
+// })
 
-if(e.target.value==="foreign")
-{
+// if(e.target.value==="foreign")
+// {
 
-  this.setState({
-    idtype:"passport",
-    identitytype:"Enter passport Number"
-  })
-document.getElementById("idtype").value="nic"
-}else{
-  this.setState({
-    idtype:"nic",
-    identitytype:"Enter NIC"
-  })
-  document.getElementById("idtype").value="passport"
-}
+//   this.setState({
+//     idtype:"passport",
+//     identitytype:"Enter passport Number"
+//   })
+// document.getElementById("idtype").value="nic"
+// }else{
+//   this.setState({
+//     idtype:"nic",
+//     identitytype:"Enter NIC"
+//   })
+//   document.getElementById("idtype").value="passport"
+// }
 
-  }
+ // }
 
   onSubmitHandler=(e)=>{
 e.preventDefault();
@@ -141,83 +141,28 @@ let regUsers=""
 let tokendata="";
 
 
-if(this.state.usercatergory==="foreign")
-{
+
   regUsers={
     email:this.state.email,
     password:this.state.password,
-    username:this.state.username,
-    usercatergory:this.state.usercatergory,
-    idtype:this.state.idtype,
-    identity:this.state.identity,
-    tokentype:"temporary"
+    username:this.state.username
   
   }
-
-
-  tokendata={
-    tokentype:"temporary",
-    email:this.state.email,
-    issueDate:new Date().toString(),
-    expiryDate:moment(moment().add(30,'d').toDate()).format("YYYY-MM-DD"),
-    amount:200,
-    isactive:1
-  }
-
-
-}else if(this.state.usercatergory==="local")
-{
-  regUsers={
-    email:this.state.email,
-    password:this.state.password,
-    username:this.state.username,
-    usercatergory:this.state.usercatergory,
-    idtype:this.state.idtype,
-    identity:this.state.identity,
-    tokentype:this.state.tokentype
-  
-  }
-
-  if(this.state.tokentype==="monthly")
-  {
 
     tokendata={
-      tokentype:this.state.tokentype,
       email:this.state.email,
       issueDate:new Date().toString(),
-      expiryDate:moment(moment().add(30,'d').toDate()).format("YYYY-MM-DD"),
-      amount:1000,
+      todos: 5,
       isactive:1
     }
-
-  }else if(this.state.tokentype==="single")
-  {
-    tokendata={
-      tokentype:this.state.tokentype,
-      email:this.state.email,
-      issueDate:new Date().toString(),
-      expiryDate:"",
-      amount:200,
-      isactive:1
-    }
-  }
-
-
-  
-}
-
-
 
 auth.createUserWithEmailAndPassword(this.state.email,this.state.password)
   .then(()=>{
     var username=this.state.email.split("@")[0];
-    database.ref('passenger').push().set(regUsers).catch(err=>console.log(err.message));
-    database.ref('token').push().set(tokendata).catch(err=>console.log(err.message));
-    localStorage.setItem("usertype","user");
+    database.ref('users').push().set(regUsers).catch(err=>console.log(err.message));
+    database.ref('membership').push().set(tokendata).catch(err=>console.log(err.message));
+    // localStorage.setItem("usertype","user");
     localStorage.setItem("email",this.state.email);
-
-
-
   }).catch(err=>{
 
       this.setState({
@@ -282,9 +227,6 @@ auth.createUserWithEmailAndPassword(this.state.email,this.state.password)
                       <FormFeedback>Password length should be more than 7</FormFeedback>
                     </InputGroup>
 
-         
-
-
                     <InputGroup className="mb-4">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -295,19 +237,15 @@ auth.createUserWithEmailAndPassword(this.state.email,this.state.password)
                       <FormFeedback>Passwords doesn't match</FormFeedback>
                     </InputGroup>
 
-                    <InputGroup className="mb-3">
+                    {/* <InputGroup className="mb-3">
                     <InputGroupAddon addonType="prepend">
                         <InputGroupText>
                           <i className="icon-user"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-        <Input type="select" name="usercatergory" id="usercatergory" onChange={this.oncatergoryselect}>
-         <option value="foreign">Foreigner</option>
-         <option value="local">Local</option>
-        </Input>
-      </InputGroup>
+      </InputGroup> */}
 
-      <InputGroup className="mb-3">
+      {/* <InputGroup className="mb-3">
                     <InputGroupAddon addonType="prepend">
                         <InputGroupText>
                           <i className="icon-user-female"></i>
@@ -325,10 +263,10 @@ auth.createUserWithEmailAndPassword(this.state.email,this.state.password)
                         <InputGroupText> <i className="icon-bag"></i></InputGroupText>
                       </InputGroupAddon>
                       <Input type="text" placeholder={this.state.identitytype} name="identity" id="identity"  value={this.state.identity} onChange={this.onChangeHandler} />
-                    </InputGroup>
+                    </InputGroup> */}
 
 
-{this.state.usercatergory==="local"?
+{/* {this.state.usercatergory==="local"?
                     <InputGroup className="mb-3">
                     <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -342,7 +280,7 @@ auth.createUserWithEmailAndPassword(this.state.email,this.state.password)
         
         </Input>
       </InputGroup>
-:<></>}
+:<></>} */}
 
 
                     <Button color="success" onClick={()=>this.modelopen()} block>Create Account</Button>
@@ -433,9 +371,7 @@ auth.createUserWithEmailAndPassword(this.state.email,this.state.password)
                     <Label htmlFor="date-input">Payable Amount</Label>
                   </Col>
                   <Col xs="12" md="9">
-                    {this.state.tokentype==="sinle"||this.state.tokentype==="temporary"?
                                <p style={{color:"red"}}> <b> Rs. 200.00</b></p>
-                               :<p style={{color:"red"}}> <b> Rs. 1000.00</b></p>}
                   </Col>
                 </FormGroup>
 

@@ -164,8 +164,8 @@ class Login extends Component {
                         <Col xs="6" className="text-right">
                           <Button color="link" className="px-0" onClick={()=>{window.location.href="#/forgotpassword"}}>Forgot password?</Button>
                         </Col>
-                        <Col xs="6" className="text-right">
-                          <Button color="link" className="px-0" onClick={()=>{ this.props.history.push("/register");}}>Register</Button>
+                        <Col xs="6" className="text-left">
+                          <Button color="link" className="px-0" onClick={()=>{ this.props.history.push("/register");}}>Do not have an account?</Button>
                         </Col>
                       </Row>
                     </Form>

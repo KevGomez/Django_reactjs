@@ -19,6 +19,7 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 import Todo from "../../assets/todo.jpg";
 import Todo2 from "../../assets/todo2.jpg";
+import ToDoList from "../ToDoList/ToDoList";
 
 const useStyles =theme => ({
     root: {
@@ -80,7 +81,7 @@ class DashboardUser extends Component {
       <>
         <TabPane tabId="1">
           {
-               
+               <ToDoList />
           }
         </TabPane>
         <TabPane tabId="2">
@@ -187,15 +188,25 @@ class DashboardUser extends Component {
                     this.toggle(0, "2");
                   }}
                 >
+                  <b>Create Todo</b>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  active={this.state.activeTab[0] === "3"}
+                  onClick={() => {
+                    this.toggle(0, "3");
+                  }}
+                >
                   <b>Completed Todo</b>
                 </NavLink>
               </NavItem>
 
               <NavItem>
                 <NavLink
-                  active={this.state.activeTab[0] === "3"}
+                  active={this.state.activeTab[0] === "4"}
                   onClick={() => {
-                    this.toggle(0, "3");
+                    this.toggle(0, "4");
                   }}
                 >
                  <b> Renew Membership</b>
