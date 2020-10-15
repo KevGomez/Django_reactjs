@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import "./Style.scss";
 import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/logo2.png'
-import imgavatar from "../../assets/8.jpg";
+import imgavatar from "../../assets/user.png";
 import {auth} from "../../firebasejs";
 
 
