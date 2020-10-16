@@ -188,7 +188,7 @@ class DashboardUser extends Component {
                     this.toggle(0, "2");
                   }}
                 >
-                  <b>Create Todo</b>
+                  <b>Completed ToDo List</b>
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -198,18 +198,7 @@ class DashboardUser extends Component {
                     this.toggle(0, "3");
                   }}
                 >
-                  <b>Completed Todo</b>
-                </NavLink>
-              </NavItem>
-
-              <NavItem>
-                <NavLink
-                  active={this.state.activeTab[0] === "4"}
-                  onClick={() => {
-                    this.toggle(0, "4");
-                  }}
-                >
-                 <b> Renew Membership</b>
+                  <b>Membership</b>
                 </NavLink>
               </NavItem>
 

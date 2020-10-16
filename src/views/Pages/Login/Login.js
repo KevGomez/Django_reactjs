@@ -135,7 +135,7 @@ class Login extends Component {
                 <Card className="p-4">
                   <CardBody>
                     <Form onSubmit={this.onSubmitHandler}>
-                      <h1>Ticketing System</h1>
+                      <h1>ToDo Membership System</h1>
                       <p className="text-muted">Sign In to your account</p>
 
                       {this.state.error&&<div className="alert alert-danger">{this.state.error}</div>}
