@@ -72,6 +72,7 @@ class Login extends Component {
 
               }else{
                 localStorage.setItem("usertype","user")
+                localStorage.setItem("username", username)
               }
             }).catch((error)=> {
               this.setState({

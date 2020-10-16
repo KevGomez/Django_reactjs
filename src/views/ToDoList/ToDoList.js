@@ -72,16 +72,6 @@ class ToDoList extends Component {
             })
         })
 
-        this.getData();
-
-    }
-
-    getData = async() => {
-        await this.state.realTimeDBMembership.map( val=>{
-            this.setState({
-                totalAmount: val.todos
-            })
-        })
     }
 
 
@@ -89,6 +79,18 @@ class ToDoList extends Component {
         this.setState({
             [event.target.name]:event.target.value,
         }) 
+    }
+
+    completeToDo = (id) => {
+        database.ref('todolist/'+id).update( {status:"Completed"},(err)=>{
+            if (err) {
+                console.log(err);
+
+                } else {
+                    alert('Todo Completed!')
+               }
+         });
+
     }
     
 
@@ -98,9 +100,11 @@ class ToDoList extends Component {
         await this.state.realTimeDBMembership.map( val=>{
             if(val.todos===0)
             {
+                console.log("Inside todo true")
                 this.setState({
                     noTodos: true,
                 })
+                
             }
             else{
                 this.setState({
@@ -108,9 +112,18 @@ class ToDoList extends Component {
                 })
             }
         })
+
+        if(this.state.availableTodos === 0){
+
+            database.ref('membership').orderByChild('email').equalTo(this.state.userID.trim()).once('value',(snapshot)=>{
+                snapshot.forEach(data=>{
+                    database.ref(`membership/${data.key}/`).update({isactive:0})
+                })
+              })
+        }
         
         if(this.state.noTodos){
-            alert('Error: credit insufficient!');
+            alert('Error: credit insufficient, please topup your membership');
         }
         else{
             database.ref('todolist').push().set({
@@ -160,7 +173,7 @@ class ToDoList extends Component {
                             Date:
                             <b> {moment(data.date).format("YYYY-MM-DD")} </b> 
                             
-                            <Button className="ml-auto d-block mr-3" outline color="danger" onClick={()=>{this.deactivateToDo(data.id)}}> Done </Button> 
+                            <Button className="ml-auto d-block mr-3" outline color="danger" onClick={()=>{this.completeToDo(data.id)}}> Done </Button> 
                             </p>
                         </Alert>
                             )
@@ -183,7 +196,7 @@ class ToDoList extends Component {
 
                         <Form method ="POST" onSubmit={this.checkInputAndSubmit}>
                         <Label>Enter the ToDo title:</Label>
-                            <Input type="text" name="todo" id="todo" placeholder="Type ToDo" onChange={this.onChangeHandler} >
+                            <Input type="text" name="todo" id="todo" value={this.state.todo} onChange={this.onChangeHandler} >
                             </Input>
                             <br />
                             <Button type="submit" >Create ToDo</Button>

@@ -20,6 +20,8 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Todo from "../../assets/todo.jpg";
 import Todo2 from "../../assets/todo2.jpg";
 import ToDoList from "../ToDoList/ToDoList";
+import Completed from "../Completed/Completed";
+import Membership from "../Membership/Membership";
 
 const useStyles =theme => ({
     root: {
@@ -87,15 +89,13 @@ class DashboardUser extends Component {
         <TabPane tabId="2">
 
           {
-          <div>
-            
-          </div>
+          <Completed />
           }
         </TabPane>
         <TabPane tabId="3">
 
             {
-                
+                <Membership />
                                     
             }
             </TabPane>

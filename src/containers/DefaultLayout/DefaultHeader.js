@@ -54,7 +54,7 @@ class DefaultHeader extends Component {
             <DropdownMenu right>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
 
-    <DropdownItem ><i className="fa fa-shield"></i>{localStorage.getItem("usertype")}</DropdownItem>
+    <DropdownItem ><i className="fa fa-shield"></i>{localStorage.getItem("username")}</DropdownItem>
               <DropdownItem onClick={this.logout}><i className="fa fa-lock"></i> Logout</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
