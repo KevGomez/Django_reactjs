@@ -6,7 +6,7 @@ import alertify from "alertifyjs/build/alertify";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/alertify.css";
 import "alertifyjs/build/css/themes/default.min.css";
-import * as BaseService from "../../../BaseService.js";
+// import * as BaseService from "../../../BaseService.js";
 class ResetPassword extends Component {
 
   constructor(props){
@@ -110,23 +110,23 @@ const regUsers={
   token:this.state.token
 }
 
-const url = "/user/update/";
-BaseService.PostServiceWithoutHeader(url, regUsers)
-  .then((res) => {
-    if (res.data.success === true) {
-        Swal.fire(
-            'Good job!',
-            'successfuly changed password',
-            'success'
-          )
-      window.location.href="/#/login";
-    } else {
-      alertify.alert("Cannot perform the operation");
-    }
-  })
-  .catch((err) => {
-    alertify.alert("Cannot perform the operation");
-  });
+// const url = "/user/update/";
+// BaseService.PostServiceWithoutHeader(url, regUsers)
+//   .then((res) => {
+//     if (res.data.success === true) {
+//         Swal.fire(
+//             'Good job!',
+//             'successfuly changed password',
+//             'success'
+//           )
+//       window.location.href="/#/login";
+//     } else {
+//       alertify.alert("Cannot perform the operation");
+//     }
+//   })
+//   .catch((err) => {
+//     alertify.alert("Cannot perform the operation");
+//   });
 
 
   }

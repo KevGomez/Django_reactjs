@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
-
+import alertify from "alertifyjs/build/alertify";
 import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/alertify.css";
 import "alertifyjs/build/css/themes/default.min.css";
 import { css } from "@emotion/core";
 import HashLoader from "react-spinners/HashLoader";
 import Wallpaper from "../../../assets/wallpaper.jpg";
-import {auth, database} from "../../../firebasejs";
+import * as BaseService from '../../../BaseService';
+
 
 const override = css`
   display: block;
@@ -34,12 +35,7 @@ class Login extends Component {
     }
   }
 
-
-
-
-
   onChangeHandler=(e)=>{
-
     this.setState({
       [e.target.name]:e.target.value
     })
@@ -47,11 +43,14 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    auth.onAuthStateChanged((user)=>{
-      if (user){
-        this.props.history.push("/dashboard");
-      }
-    });
+    const url = '/accounts/index/'
+    BaseService.GetIndexService(url).then((res) =>{
+      console.log("Server connection is success!")
+      console.log(res.data.wmsg)
+    })
+    .catch((err)=>{
+      alertify.alert("Server Error, Please check this with the administrator");
+    })
   }
 
 
@@ -59,41 +58,23 @@ class Login extends Component {
 
     e.preventDefault();
 
-
-    var username=this.state.username.split("@")[0];
     try {
-      auth.signInWithEmailAndPassword(this.state.username,this.state.password).then(()=>{
-
-              localStorage.setItem("email",this.state.username);
-              this.props.history.push("/dashboard");
-
-              if(this.state.username==="admin" && this.state.password==="admin") {
-                localStorage.setItem("usertype","admin")
-
-              }else{
-                localStorage.setItem("usertype","user")
-                localStorage.setItem("username", username)
-              }
-            }).catch((error)=> {
-              this.setState({
-                error:error.message
-              });
-            });
-
-
-
-
-
-
-
+      const data ={
+        username: this.state.username,
+        password: this.state.password
+      }
+      const url = '/accounts/api/auth/'
+      BaseService.LoginService(url ,data).then((res) => {
+        localStorage.setItem("username", res.data['username'])
+          // console.log(res.data['username'])
+          alertify.success("Login Success", 1, window.location.href="#/dashboard")
+      })
+      .catch((err) => {
+        alertify.alert("Failed","Credentials are wrong!!").set('onok', function(closeEvent){ window.location.reload();});
+      });
     }catch (e) {
-
+        console.log("Caught error in login: " + e)
     }
-
-
-
-
-
   }
 
 
@@ -107,15 +88,7 @@ class Login extends Component {
         </div>
       <div className="app flex-row align-items-center">
 
-
-
-
-
-
-
-
-
-               <div className="sweet-loading text-center" style={{zIndex:"5"}}>
+      <div className="sweet-loading text-center" style={{zIndex:"5"}}>
         <HashLoader
           css={override}
           size={75}
@@ -123,20 +96,14 @@ class Login extends Component {
           loading={this.state.loading}
         />
       </div>
-
-
         <Container>
-
-
-
-
           <Row className="justify-content-center">
             <Col md="6">
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
                     <Form onSubmit={this.onSubmitHandler}>
-                      <h1>ToDo Membership System</h1>
+                      <h1>Employee Management System</h1>
                       <p className="text-muted">Sign In to your account</p>
 
                       {this.state.error&&<div className="alert alert-danger">{this.state.error}</div>}

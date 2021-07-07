@@ -19,9 +19,8 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 import Todo from "../../assets/todo.jpg";
 import Todo2 from "../../assets/todo2.jpg";
-import ToDoList from "../ToDoList/ToDoList";
-import Completed from "../Completed/Completed";
-import Membership from "../Membership/Membership";
+import AddEmployee from '../AddEmployee/AddEmployee';
+import EmployeeList from '../EmployeeList/EmployeeList'
 
 const useStyles =theme => ({
     root: {
@@ -64,10 +63,16 @@ class DashboardUser extends Component {
     super(props);
     this.state={
         activeTab: new Array(4).fill("1"),
-
+        username: "Hello! " + localStorage.getItem("username") + " Welcome Back"
     }
   }
 
+  componentDidMount() {
+    if(localStorage.getItem("username") == null)
+    {
+      window.location.href = "/"
+    }
+  }
 
   toggle(tabPane, tab) {
     const newArray = this.state.activeTab.slice();
@@ -83,25 +88,16 @@ class DashboardUser extends Component {
       <>
         <TabPane tabId="1">
           {
-               <ToDoList />
+               <EmployeeList />
           }
         </TabPane>
         <TabPane tabId="2">
-
           {
-          <Completed />
+               <AddEmployee />
           }
         </TabPane>
-        <TabPane tabId="3">
-
-            {
-                <Membership />
-                                    
-            }
-            </TabPane>
 
             
-         
       </>
     );
   }
@@ -109,66 +105,64 @@ class DashboardUser extends Component {
 
   
   render() {
-
     const {classes} = this.props;
+    const {items} = this.state;
     return (
-
       <div>
+          {/* Image GRID List on the dashboard */}
+        <GridList className={classes.gridList} cols={2.0} style={{cursor:"pointer"}}> 
 
-<GridList className={classes.gridList} cols={2.0} style={{cursor:"pointer"}}> 
+              <GridListTile key="1"
+              onClick={()=>{}}
+              style={{borderColor:"red",borderWidth:"medium"}}
+            
+              >
+                <img src={Todo} style={{width:"100%"}} alt="image" />
+                
+                <GridListTileBar
+                
+                  title={this.state.username}
+                  classes={{
+                    root: classes.titleBar,
+                    title: classes.title,
+                  }}
+                  actionIcon={
+                    <IconButton aria-label={`star ${"hello"}`}
+                    >
+                      <StarBorderIcon className={classes.title} />
+                    </IconButton>
+                  }
+                
+                />
+              </GridListTile>
+            
+              <GridListTile key="2"
+              onClick={()=>{}}
+              style={{borderColor:"red",borderWidth:"medium"}}
+            
+              >
+                <img src={Todo2} style={{width:"100%"}} alt="image" />
+                
+                <GridListTileBar
+                
+                  title="Employee Management System by Kevin Gomez"
+                  classes={{
+                    root: classes.titleBar,
+                    title: classes.title,
+                  }}
+                  actionIcon={
+                    <IconButton aria-label={`star ${"hello"}`}
+                    >
+                      <StarBorderIcon className={classes.title} />
+                    </IconButton>
+                  }
+                
+                />
+              </GridListTile>
 
+          </GridList>
 
-  <GridListTile key="1"
-  onClick={()=>{}}
-  style={{borderColor:"red",borderWidth:"medium"}}
- 
-  >
-    <img src={Todo} style={{width:"100%"}} alt="image" />
-    
-    <GridListTileBar
-    
-      title="Organize your tasks well"
-      classes={{
-        root: classes.titleBar,
-        title: classes.title,
-      }}
-      actionIcon={
-        <IconButton aria-label={`star ${"hello"}`}
-        >
-          <StarBorderIcon className={classes.title} />
-        </IconButton>
-      }
-    
-    />
-  </GridListTile>
-  
-  <GridListTile key="2"
-  onClick={()=>{}}
-  style={{borderColor:"red",borderWidth:"medium"}}
- 
-  >
-    <img src={Todo2} style={{width:"100%"}} alt="image" />
-    
-    <GridListTileBar
-    
-      title="By extending your membership"
-      classes={{
-        root: classes.titleBar,
-        title: classes.title,
-      }}
-      actionIcon={
-        <IconButton aria-label={`star ${"hello"}`}
-        >
-          <StarBorderIcon className={classes.title} />
-        </IconButton>
-      }
-    
-    />
-  </GridListTile>
-
-</GridList>
-
-<Row>
+        <Row>
           <Col>
             <Nav tabs>
               <NavItem>
@@ -178,7 +172,7 @@ class DashboardUser extends Component {
                     this.toggle(0, "1");
                   }}
                 >
-                  <b>All Todo List</b>
+                  <b>Employee List</b>
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -188,17 +182,7 @@ class DashboardUser extends Component {
                     this.toggle(0, "2");
                   }}
                 >
-                  <b>Completed ToDo List</b>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  active={this.state.activeTab[0] === "3"}
-                  onClick={() => {
-                    this.toggle(0, "3");
-                  }}
-                >
-                  <b>Membership</b>
+                  <b>Add Employees</b>
                 </NavLink>
               </NavItem>
 
@@ -208,11 +192,6 @@ class DashboardUser extends Component {
             </TabContent>
           </Col>
         </Row>
-
-
-
-
-
       </div>
      
     );
