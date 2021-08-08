@@ -1,0 +1,8 @@
+package com.spring.springboot.model;
+
+public class Employee {
+	private long id;
+	private String empCode;
+	private String empName;
+	private String empMobile;
+}

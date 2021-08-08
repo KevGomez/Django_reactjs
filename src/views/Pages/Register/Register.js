@@ -84,7 +84,7 @@ class Register extends Component {
   onSubmitHandler=(e)=>{
     
       e.preventDefault();
-        const url = '/accounts/register/'
+        const url = '/register/'
       let data={
         username: this.state.username,
         first_name: this.state.firstname,
@@ -96,13 +96,16 @@ class Register extends Component {
 
       BaseService.RegisterService(url ,data).then((res) => {
         console.log(res.data)
-        alertify.alert("Success", "Registration Success!!").set('onok', function(closeEvent){ window.location.href = '/';});
+        if(res.data.status == 'error'){
+          alertify.alert("Failed","Registration Failed!").set('onok', function(closeEvent){ window.location.reload();});
+        }
+        else{
+          alertify.alert("Success", "Registration Success!!").set('onok', function(closeEvent){ window.location.href = '/';});
+        }
       })
       .catch((err) => {
-        alertify.alert("Failed","Registration Failed!!! Due to provided information does not follow our rules").set('onok', function(closeEvent){ window.location.reload();});
+        alertify.alert("Failed","Registration Failed!!!").set('onok', function(closeEvent){ window.location.reload();});
       });
-
-      console.log(data)
   }
 
   render() {

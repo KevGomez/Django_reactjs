@@ -1,0 +1,37 @@
+package com.spring.springboot.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.spring.springboot.repository.EmployeeRepository;
+
+import java.util.List;
+
+import com.spring.springboot.model.Employee;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+@RestController
+@RequestMapping("/api/#")
+public class EmployeeController {
+	
+	@Autowired
+	private EmployeeRepository empRepo;
+	
+	// get employees
+	@GetMapping("/employees")
+	public List<Employee> getAllEmployees() {
+		return empRepo.findAll();
+	}
+	
+	
+	
+	
+	
+	// get employee by ID
+	// create employee
+	// update employee
+	// delete employee
+
+}

@@ -96,7 +96,6 @@ class DashboardUser extends Component {
                <AddEmployee />
           }
         </TabPane>
-
             
       </>
     );

@@ -8,7 +8,6 @@ import {
   } from "reactstrap";
   import alertify from "alertifyjs/build/alertify";
   import * as BaseService from '../../BaseService';
-import { FlareSharp } from '@material-ui/icons';
 
 class EmployeeList extends Component {
 
@@ -30,7 +29,7 @@ class EmployeeList extends Component {
             window.location.href="/"
         }
         else{
-            const url = '/getlist/'
+            const url = '/getemp'
             BaseService.GetEmployeeList(url).then((res) => {
                 console.log(res.data)
                 this.setState({
@@ -51,13 +50,18 @@ class EmployeeList extends Component {
 
     deleteEmployee = (id) => {
        console.log(id)
-       const url = '/delete/' + id + '/'
+       const url = '/delemp/' + id
        BaseService.DeleteEmployeeService(url).then((res) => {
         console.log(res.data)
-        alertify.alert("Success", "Employee Deleted!!").set('onok', function(closeEvent){ window.location.reload();});
+        if(res.data.status == 'error'){
+          alertify.alert("Failed","Employee deletion Failed!!!").set('onok', function(closeEvent){ window.location.reload();});
+        }
+        else{
+          alertify.alert("Success", "Employee Deleted!!").set('onok', function(closeEvent){ window.location.reload();});
+        }
       })
       .catch((err) => {
-        alertify.alert("Failed","Employee deleting Failed!!! Make sure to provide relevant information").set('onok', function(closeEvent){ window.location.reload();});
+        alertify.alert("Failed","Employee deletion Failed!!!").set('onok', function(closeEvent){ window.location.reload();});
     });
     }
 
@@ -74,7 +78,7 @@ class EmployeeList extends Component {
     updateEmployee= async(e) => {
         e.preventDefault();
 
-        const url = '/update/' + this.state.empID + "/"
+        const url = '/editemp/' + this.state.empID
         const data ={
             empCode: this.state.empCode,
             empName: this.state.empName,
@@ -83,10 +87,16 @@ class EmployeeList extends Component {
         }
 
         console.log(data)
+        console.log(this.state.empID)
 
         BaseService.UpdateEmployeeService(url ,data).then((res) => {
-            console.log(res.data)
-            alertify.alert("Success", "Employee Updated!!").set('onok', function(closeEvent){ window.location.reload();});
+            console.log(res.data.data)
+            if(res.data.status == 'error'){
+              alertify.alert("Failed","Employee editing Failed!!! Make sure to provide relevant information").set('onok', function(closeEvent){ window.location.reload();});
+            }
+            else{
+              alertify.alert("Success", "Employee Updated!!").set('onok', function(closeEvent){ window.location.reload();});
+            }
             this.setState({
                 openModal: false
             });
@@ -98,44 +108,37 @@ class EmployeeList extends Component {
 
     render() {
         return (
-        <div>
-            <Row>
-                <Col xs="12" sm="5">
-                    <Card >
-                    <CardHeader><h3>Employee List</h3></CardHeader>
-                    <CardBody>
-                    <CardText>You can view all the employees that you added</CardText>
-
+          <div>
+        <Row>
                     {this.state.data.map(data=>{
-
                         if(data.user == this.state.user){
                             return(
-                                <Alert style={StyledHome.rowShadow} color="warning" key={data.id}>
-                                    <Badge color="success" pill>Added by {data.user}</Badge>
-                                    <Button className="ml-auto d-block mr-3" outline color="success" onClick={() => {this.editEmployee(data.empCode, data.empName, data.empMobile, data.id)}}> Edit </Button> 
-                                    <p>Employee Code:
-                                    <b> {data.empCode} </b> 
-                                    <br />
-                                    </p>
-                                    <p>Employee Name:
-                                    <b> {data.empName} </b> 
-                                    <br />
-                                    </p>
-                                    <p>Employee Mobile:
-                                    <b> {data.empMobile} </b> 
-                                    <br />
-                                    <Button className="ml-auto d-block mr-3" outline color="danger" onClick={() => {this.deleteEmployee(data.id)}}> Delete </Button> 
-                                    </p>
-                                </Alert>
+                                <Col lg="3" sm="12" md="6" xs="12">
+                                    <Alert style={StyledHome.rowShadow} color="warning" key={data.id}>
+                                        <Badge color="success" pill>Added by {data.user}</Badge>
+                                        <Button className="ml-auto d-block mr-3" outline color="success" onClick={() => {this.editEmployee(data.empCode, data.empName, data.empMobile, data.id)}}> Edit </Button> 
+                                        <p>Employee Code:
+                                        <b> {data.empCode} </b> 
+                                        <br />
+                                        </p>
+                                        <p>Employee Name:
+                                        <b> {data.empName} </b> 
+                                        <br />
+                                        </p>
+                                        <p>Employee Mobile:
+                                        <b> {data.empMobile} </b> 
+                                        <br />
+                                        <Button className="ml-auto d-block mr-3" outline color="danger" onClick={() => {this.deleteEmployee(data.id)}}> Delete </Button> 
+                                        </p>
+                                    </Alert>
+                                </Col>
                             )
                         }
-
+           
                      })}
                     
-                    </CardBody>
-                    </Card>
-                </Col>
-            </Row>
+        </Row>
+
 
         <Modal
             isOpen={this.state.openModal}
@@ -200,8 +203,7 @@ class EmployeeList extends Component {
               </ModalFooter>
             </Form>
           </Modal>
-            
-        </div>
+          </div>
         );
     }
 }

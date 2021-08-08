@@ -1,0 +1,75 @@
+package com.spring.springboot.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+// All these @ tags are JPA annotations
+
+@Entity
+@Table(name = "employee")
+public class Employee {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	@Column(name = "empCode")
+	private String empCode;
+	
+	@Column(name = "empName")
+	private String empName;
+	
+	@Column(name = "empMobile")
+	private String empMobile;
+	
+	@Column(name = "user")
+	private String user;
+	
+	
+	public Employee() {
+		super();
+	}
+	public Employee(String empCode, String empName, String empMobile, String user) {
+		super();
+		this.empCode = empCode;
+		this.empName = empName;
+		this.empMobile = empMobile;
+		this.user = user;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getEmpCode() {
+		return empCode;
+	}
+	public void setEmpCode(String empCode) {
+		this.empCode = empCode;
+	}
+	public String getEmpName() {
+		return empName;
+	}
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+	public String getEmpMobile() {
+		return empMobile;
+	}
+	public void setEmpMobile(String empMobile) {
+		this.empMobile = empMobile;
+	}
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
+	}
+	
+}

@@ -43,7 +43,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const url = '/accounts/index/'
+    const url = '/index/'
     BaseService.GetIndexService(url).then((res) =>{
       console.log("Server connection is success!")
       console.log(res.data.wmsg)
@@ -63,11 +63,17 @@ class Login extends Component {
         username: this.state.username,
         password: this.state.password
       }
-      const url = '/accounts/api/auth/'
+      const url = '/login/'
       BaseService.LoginService(url ,data).then((res) => {
-        localStorage.setItem("username", res.data['username'])
+        localStorage.setItem("username", res.data.username)
           // console.log(res.data['username'])
-          alertify.success("Login Success", 1, window.location.href="#/dashboard")
+          if(res.data.status == 'error'){
+            alertify.alert("Failed","Login Failed! Due to " + res.data.error).set('onok', function(closeEvent){ window.location.reload();});
+          }
+          else{
+            alertify.success("Login Success", 1, window.location.href="#/dashboard")
+          }
+          
       })
       .catch((err) => {
         alertify.alert("Failed","Credentials are wrong!!").set('onok', function(closeEvent){ window.location.reload();});

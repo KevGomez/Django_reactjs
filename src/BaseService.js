@@ -4,8 +4,14 @@ import "alertifyjs/build/css/alertify.min.css";
 import "alertifyjs/build/css/alertify.css";
 import "alertifyjs/build/css/themes/default.min.css";
 
-const base_url ="http://localhost:8000";
-const emp_base_url = "http://localhost:8000/emp"
+// Django
+const base_url ="http://localhost:8000/api/user";
+
+// Spring
+const emp_base_url = "http://localhost:8080/api/emp"
+
+
+// ================== User Management ======================
 
 export const GetIndexService = async (url) => {
   return axios(base_url + url, {
@@ -56,6 +62,9 @@ export const RegisterService = async(url, data) => {
         return err;
     })
 };
+
+// ==================== Employee Management ======================
+
 
 export const AddEmployeeService = async(url, data) => {
     return await axios(emp_base_url + url, {

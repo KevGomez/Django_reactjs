@@ -33,7 +33,7 @@ class AddEmployee extends Component {
 
     onSubmit = async(e) => {
         e.preventDefault();
-        const url = '/add/'
+        const url = '/addemp'
         const data ={
             empCode: this.state.empCode,
             empName: this.state.empName,
