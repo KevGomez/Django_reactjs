@@ -1,3 +1,4 @@
-ToDo App by Kevin Gomez.
-
-https://react-js-to-do-fire-base.vercel.app
+This includes Employee Management System developed with two backends with ReactJS
+- Django
+- Spring
+- ReactJS
